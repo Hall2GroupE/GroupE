@@ -1,0 +1,117 @@
+@model List<AspnetCoreMvcFull.Models.Hall>
+
+ @* @{
+     var datalist = ViewData["list"] as List<AspnetCoreMvcFull.Models.Hall>
+    ;
+    
+    }
+<div class="col-lg-8">
+    <small class="text-light fw-medium">Vertically centered</small>
+    <div class="mt-4">
+        <!-- Add New Customer Modal -->
+        <div class="modal fade" id="modalAddHall" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAddTitle">Add New </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-action="Add" method="post">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+
+                                    <div class="form-group mb-3">
+                                        <label asp-for="HallName" class="form-label">Hall Name</label>
+                                        <input asp-for="HallName" class="form-control" />
+                                        <span asp-validation-for="HallName" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label asp-for="Capacity" class="form-label">Capacity</label>
+                                        <input asp-for="Capacity" class="form-control" type="number" min="1" />
+                                        <span asp-validation-for="Capacity" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label asp-for="RentalCost" class="form-label">Rental Cost</label>
+                                        <input asp-for="RentalCost" class="form-control" type="number" step="0.01" />
+                                        <span asp-validation-for="RentalCost" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label asp-for="Location" class="form-label">Location</label>
+                                        <input asp-for="Location" class="form-control" />
+                                        <span asp-validation-for="Location" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="d-flex justify-content-start">
+                                        <button type="submit" class="btn btn-primary me-3">Submit</button>
+                                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div> *@
+
+                    <h1 class="text-center">Halls</h1>
+
+<div class="mb-3">
+    <a asp-action="Add" class="btn btn-primary">New Hall</a>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Hall Name</th>
+            <th>Capacity</th>
+            <th>Rental Cost</th>
+            <th>Location</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hall in Model)
+        {
+            <tr>
+                <td>@hall.HallName</td>
+                <td>@hall.Capacity</td>
+                <td>@hall.RentalCost.ToString("C")</td>
+                <td>@hall.Location</td>
+                <td>
+                    <a asp-action="UpdateHall" asp-route-id="@hall.HallID" class="btn btn-sm btn-primary me-2">Edit</a>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(@hall.HallID)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Include SweetAlert script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Confirmation script for delete action -->
+<script>
+    function confirmDelete(hallID) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to delete this hall?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the delete action with hallID
+                window.location.href = `/Hallss/Delete/${hallID}`;
+            }
+        });
+    }
+</script>

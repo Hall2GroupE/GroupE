@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using events.Models;
 using Microsoft.EntityFrameworkCore;
 using events.data;
@@ -31,7 +31,6 @@ namespace events.Controllers
             {
                 // EventTypeID is auto-generated, so no need to set it here
                 EventTypeName = eventRequest.EventTypeName,
-                Price = eventRequest.Price,
                 Description = eventRequest.Description
             };
 
@@ -56,7 +55,6 @@ namespace events.Controllers
                 {
                     EventTypeID = stddetails.EventTypeID,  // Use the existing ID, not a new one
                     EventTypeName = stddetails.EventTypeName,
-                    Price = stddetails.Price,
                     Description = stddetails.Description,
                   
                 };
@@ -71,7 +69,6 @@ namespace events.Controllers
             if (eventinfo != null)
             {
                 eventinfo.EventTypeName = updateStudentRequest.EventTypeName;
-                eventinfo.Price = updateStudentRequest.Price;
                 eventinfo.Description = updateStudentRequest.Description;
                
 

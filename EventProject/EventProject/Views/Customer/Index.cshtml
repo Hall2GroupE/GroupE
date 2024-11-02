@@ -1,20 +1,19 @@
 @model events.Models.Customers;
 @{
     var updateCust = ViewData["UpdateCust"] as events.Models.UpdateCust;
-    var datalist = ViewData["list"] as List<events.Models.Customers>;
+    var datalist = ViewData["list"] as List< events.Models.Customers>;
 }
 
 
 
 <div class="col-lg-8">
-    <small class="text-light fw-medium">Vertically centered</small>
+    <h2 class="text-heading fw-medium">Customers</h2>
     <div class="mt-4">
         <!-- Add New Customer Modal -->
         <div class="modal fade" id="modalAddCustomer" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalAddTitle">Add New Customer</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -68,7 +67,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form asp-action="UpdateCust" method="post">
+                        <form asp-action="" method="post">
                             <div class="row justify-content-center">
                                 <div class="col-md-6">
 
@@ -121,12 +120,11 @@
     </div>
 </div>
 
-<h2>Customer List</h2>
 <a asp-action="Createcustomer" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalAddCustomer">Add New Customer</a>
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>ID</th>
+         
             <th>Full Name</th>
             <th>Email</th>
             <th>Phone</th>
@@ -139,19 +137,39 @@
         @foreach (var customer in datalist)
         {
             <tr>
-                <td>@customer.CustomerID</td>
+                
                 <td>@customer.FullName</td>
                 <td>@customer.Email</td>
                 <td>@customer.Phone</td>
                 <td>@customer.Address</td>
                 <td>@customer.RegisteredDate.ToString("yyyy-MM-dd")</td>
                 <td>
-                    <a asp-action="UpdateCust" asp-route-id="@customer.CustomerID" method="post" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditCustomer">Edit</a>
-                    <form asp-action="Delete" asp-route-id="@customer.CustomerID" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this customer?');">
-                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>
+                    <a asp-action="UpdateCust" asp-route-id="@customer.CustomerID" method="post" class="btn btn-sm btn-primary">Edit</a>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(@customer.CustomerID)">Delete</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<!-- Include SweetAlert script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Confirmation script for delete action -->
+<script>
+    function confirmDelete(CustomerID) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to delete this hall?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the delete action with hallID
+                window.location.href = `/Customer/Delete/${CustomerID}`;
+            }
+        });
+    }
+</script>

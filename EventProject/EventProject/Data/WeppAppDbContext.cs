@@ -1,4 +1,5 @@
-﻿using events.Models;
+using AspnetCoreMvcFull.Models;
+using events.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -11,9 +12,14 @@ namespace events.data
         }
         public DbSet<Eventtype> Event_type { get; set; }
         public DbSet<Customers> Customers { get; set; }
-        public DbSet<Halls> Hallss { get; set; }
+
+    public DbSet<Hall> Halls { get; set; }
+    public DbSet<Events> TblEvents { get; set; }
+
+    public DbSet<H> Hll { get; set; }
 
 
 
-    }
+
+  }
 }

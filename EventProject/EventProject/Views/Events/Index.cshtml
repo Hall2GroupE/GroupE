@@ -1,0 +1,106 @@
+@model events.Models.Events
+
+@{
+    ViewData["Title"] = "Events";
+    var datalist = ViewData["list"] as List<events.Models.Events>;
+
+}
+
+@section PageScripts {
+    <script src="~/js/ui-toasts.js"></script>
+}
+
+<!-- Customers Table -->
+<div class="card">
+    <h3 class="card-header">List Events</h3>
+    <div class="form-group mb-3 m-3">
+        <a asp-action="Add" class="btn btn-primary mt-2" >Book New Event</a>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Customer name</th>
+                    <th>Event name</th>
+                    <th>Event type</th>
+                    <th>No. Peoples</th>
+                    <th>Hall</th>
+                    <th>Hours</th>
+                    <th>Total Cost $</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Nevents in datalist)
+                {
+            <tr>
+                        
+                        <td>@Nevents.CustomerID</td>
+                        <td>@Nevents.NumberOfPeople</td>
+                        <td>@Nevents.EventID</td>
+                        <td>@Nevents.TotalCost</td>
+                        <td>@Nevents.EventTypeID</td>
+                        <td>@Nevents.EventName</td>
+                        <td>@Nevents.Hours</td>
+                        <td>@Nevents.TotalCost</td>
+                        <td>@Nevents.Status</td>
+                        <td>@Nevents.EventDate</td>
+                        <td>
+                        <td>
+                            <a asp-action="UpdateCust"  method="post" class="btn btn-primary">Edit</a>
+                            <button type="button" class="btn btn-danger" >Delete</button>
+                            <form  asp-action="Delete"  method="post" style="display: none;"></form>
+                        </td>
+                    </tr>
+        }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- SweetAlert for confirmation dialog -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmDelete(customerID) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${customerID}`).submit();
+            }
+        });
+    }
+</script>
+
+<!-- Toast Notification -->
+@{
+    var toastMessage = TempData["ToastMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(toastMessage))
+{
+    <div class="toast-container position-fixed p-3 top-0 start-50 translate-middle-x" style="z-index: 9999;">
+        <div class="toast show align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    @toastMessage
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <script>
+        setTimeout(() => {
+            document.querySelector('.toast').classList.remove('show');
+        }, 5000);
+    </script>
+}

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using events.data;
 
@@ -11,9 +12,11 @@ using events.data;
 namespace events.Migrations
 {
     [DbContext(typeof(WeppAppDbContext))]
-    partial class WeppAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241101181519_h")]
+    partial class h
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,46 +117,6 @@ namespace events.Migrations
                     b.HasKey("CustomerID");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("events.Models.Events", b =>
-                {
-                    b.Property<int>("EventID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventID"));
-
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EventDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("EventName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("EventTypeID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HallID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Hours")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfPeople")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EventID");
-
-                    b.ToTable("TblEvents");
                 });
 
             modelBuilder.Entity("events.Models.Eventtype", b =>

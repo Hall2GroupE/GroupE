@@ -1,0 +1,100 @@
+@model events.Models.Events
+<div class="card">
+<div class="col-lg-12">
+    <h2 class="text-heading fw-medium">Book New Event</h2>
+
+    <div class="row">
+        <form asp-action="AddEvent" method="post">
+            <div class="form-floating form-floating-outline mb-6">
+                <select asp-for="CustomerID" class="form-control">
+                    <option value="">Select Customer</option>
+                    @foreach (var customer in ViewBag.Customers)
+                    {
+                        <option value="@customer.CustomerID">@customer.FullName</option>
+                    }
+                </select>
+                <label for="customerSelect">Customer Name</label>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-6">
+                <div class="input-group">
+                    <input asp-for="NumberOfPeople" class="form-control" type="number" placeholder="Number of people" id="numberOfPeopleInput" />
+                    <select asp-for="HallID" class="form-select" id="hallSelect">
+                        <option value="">Select Hall</option>
+                        @foreach (var hall in ViewBag.Halls)
+                        {
+                            <option value="@hall.HallID" data-cost="@hall.RentalCost">@hall.HallName</option>
+                        }
+                    </select>
+                    <span class="input-group-text">Rental cost hourly</span>
+                    <span class="input-group-text">$</span>
+                    <span class="input-group-text" id="hourlyCostDisplay">0.00</span>
+                </div>
+            </div>
+
+            <div class="form-floating form-floating-outline">
+                <select asp-for="EventTypeID" class="form-select" id="eventTypeSelect">
+                    <option value="">Select Event Type</option>
+                    @foreach (var eventType in ViewBag.EventTypes)
+                    {
+                        <option value="@eventType.EventTypeID">@eventType.EventTypeName</option>
+                    }
+                </select>
+                <label for="eventTypeSelect">Event Type</label>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-6">
+                <input asp-for="EventName" class="form-control" type="text" placeholder="Eg. Wedding" id="eventNameInput" />
+                <label for="eventNameInput">Event Name</label>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-6">
+                <input asp-for="Hours" class="form-control" type="number" placeholder="00:00" id="hoursInput" />
+                <label for="hoursInput">Hours</label>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-6">
+                <input asp-for="TotalCost" class="form-control" disabled readonly type="number" placeholder="$000" id="totalCostInput" />
+                <label for="totalCostInput">Total Cost</label>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-6">
+                <select asp-for="Status" class="form-select" id="statusSelect">
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Canceled">Canceled</option>
+                </select>
+                <label for="statusSelect">Event Status</label>
+            </div>
+
+            <div class="form-floating form-floating-outline mb-6">
+                <input asp-for="EventDate" class="form-control" type="date" id="dateInput" />
+                <label for="dateInput">Date</label>
+            </div>
+
+            <div class="demo-inline-spacing">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+
+        </form>
+
+    </div>
+
+
+</div>
+</div>
+<script>
+    // JavaScript to calculate total cost dynamically
+    document.getElementById("hoursInput").addEventListener("input", calculateTotalCost);
+    document.getElementById("hallSelect").addEventListener("change", calculateTotalCost);
+
+    function calculateTotalCost() {
+        const hours = parseFloat(document.getElementById("hoursInput").value) || 0;
+        const hallSelect = document.getElementById("hallSelect");
+        const rentalCost = parseFloat(hallSelect.options[hallSelect.selectedIndex].getAttribute("data-cost")) || 0;
+        const totalCost = hours * rentalCost;
+        document.getElementById("totalCostInput").value = totalCost.toFixed(2);
+        document.getElementById("hourlyCostDisplay").textContent = rentalCost.toFixed(2);
+    }
+</script>

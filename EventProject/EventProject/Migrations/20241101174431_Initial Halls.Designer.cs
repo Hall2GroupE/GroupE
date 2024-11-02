@@ -12,8 +12,8 @@ using events.data;
 namespace events.Migrations
 {
     [DbContext(typeof(WeppAppDbContext))]
-    [Migration("20241031050424_halls migration")]
-    partial class hallsmigration
+    [Migration("20241101174431_Initial Halls")]
+    partial class InitialHalls
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,35 @@ namespace events.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AspnetCoreMvcFull.Models.Hall", b =>
+                {
+                    b.Property<int>("HallID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HallID"));
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HallName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("RentalCost")
+                        .HasColumnType("decimal(10, 2)");
+
+                    b.HasKey("HallID");
+
+                    b.ToTable("Halls");
+                });
 
             modelBuilder.Entity("events.Models.Customers", b =>
                 {
@@ -85,31 +114,6 @@ namespace events.Migrations
                     b.HasKey("EventTypeID");
 
                     b.ToTable("Event_type");
-                });
-
-            modelBuilder.Entity("events.Models.Halls", b =>
-                {
-                    b.Property<int>("HallID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HallID"));
-
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("HallName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("HallID");
-
-                    b.ToTable("Hallss");
                 });
 #pragma warning restore 612, 618
         }

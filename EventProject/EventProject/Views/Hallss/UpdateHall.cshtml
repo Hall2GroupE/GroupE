@@ -1,0 +1,42 @@
+@model AspnetCoreMvcFull.Models.Hall
+
+<div class="container mt-5">
+    <h2 class="text-center">Update Hall</h2>
+    <form asp-action="UpdateHall" method="post">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <input type="hidden" asp-for="HallID" /> <!-- Hidden field for HallID -->
+
+                <div class="form-group mb-3">
+                    <label asp-for="HallName" class="form-label">Hall Name</label>
+                    <input asp-for="HallName" class="form-control" />
+                    <span asp-validation-for="HallName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Capacity" class="form-label">Capacity</label>
+                    <input asp-for="Capacity" class="form-control" type="number" min="1" />
+                    <span asp-validation-for="Capacity" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="RentalCost" class="form-label">Rental Cost</label>
+                    <input asp-for="RentalCost" class="form-control" type="number" step="0.01" />
+                    <span asp-validation-for="RentalCost" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Location" class="form-label">Location</label>
+                    <input asp-for="Location" class="form-control" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-start">
+                    <button type="submit" class="btn btn-primary me-3">Update</button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>

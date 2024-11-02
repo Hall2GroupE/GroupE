@@ -1,54 +1,94 @@
 @{
-  TempData.Keep();
-  string? currentPage = ViewContext.HttpContext.Request.Path;
+    TempData.Keep();
+
+    string? currentPage = ViewContext.HttpContext.Request.Path;
 }
 
 <!-- Menu -->
-@* ! Do this simple *@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
 
-  @* ! Hide app brand if navbar-full *@
-  <div class='app-brand demo @((@ViewData["navbarFull"] != null && Convert.ToBoolean(@ViewData["navbarFull"])) ? "d-xl-none" : "")'>
-    <a asp-controller="Dashboards" asp-action="Index" class="app-brand-link">
-      <span class="app-brand-logo demo me-1">  @await Html.PartialAsync("../_Partials/_Macros")</span>
-      <span class="app-brand-text demo menu-text fw-semibold ms-2">@TempData.Peek("appName")</span>
-    </a>
+    <!-- App Brand -->
+    <div class='app-brand demo @((@ViewData["navbarFull"] != null && Convert.ToBoolean(@ViewData["navbarFull"])) ? "d-xl-none" : "")'>
+        <a asp-controller="Dashboards" asp-action="Index" class="app-brand-link">
+            @* <span class="app-brand-logo demo me-1">@await Html.PartialAsync("../_Partials/_Macros")</span> *@
+            <span class="app-brand-text demo menu-text fw-semibold ms-2">Event Management</span>
+        </a>
 
-    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-      <i class="menu-toggle-icon d-xl-block align-middle"></i>
-    </a>
-  </div>
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="menu-toggle-icon d-xl-block align-middle"></i>
+        </a>
+    </div>
 
-  <div class="menu-inner-shadow"></div>
+    <div class="menu-inner-shadow"></div>
 
-  @* ! Full version menu-items *@
-  <ul class="menu-inner py-1">
-    <!-- Dashboards -->
+    <!-- Full version menu-items -->
+    <ul class="menu-inner py-1">
 
-    <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Dashboards") ? " active open" : "")'>
-      <a href="javascript:void(0);"   class="menu-link">
-        <i class="menu-icon tf-icons ri-home-smile-line"></i>
-        <div>Dashboards</div>
-      </a>
-    </li>
-
-    <li class="menu-header mt-7">
-      <span class="menu-header-text">Registerations</span>
-    </li>
-    <!-- Apps -->
-    <li class='menu-item@(currentPage == "/Apps/Email" ? " active" : "")'>
-            <a class="menu-link"  asp-area="" asp-controller="Customer" asp-action="Index">Customers</a>
-    </li>
-
-        
-
-        <li class='menu-item@(currentPage == "/Apps/Email" ? " active" : "")'>
-            <a class="menu-link" asp-area="" asp-controller="Event" asp-action="Index">Event Type</a>
-
+        <!-- Dashboards -->
+        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Dashboards") ? " active open" : "")'>
+            <a href="javascript:void(0);" class="menu-link">
+                <i class="menu-icon tf-icons ri-home-smile-line"></i>
+                <div>Dashboards</div>
+            </a>
         </li>
 
-  
-  </ul>
+        <li class="menu-header mt-7">
+            <span class="menu-header-text">Registrations</span>
+        </li>
 
+        <!-- Customers -->
+        <li class='menu-item@(currentPage == "/Customer" ? " active" : "")'>
+            <a class="menu-link" asp-area="" asp-controller="Customer" asp-action="Index">
+                <i class="menu-icon tf-icons ri-user-3-line"></i> <!-- Customer Icon -->
+                <div>Customers</div>
+            </a>
+        </li>
+
+        <!-- Event Type -->
+        <li class='menu-item@(currentPage == "/Event" ? " active" : "")'>
+            <a class="menu-link" asp-area="" asp-controller="Event" asp-action="Index">
+                <i class="menu-icon tf-icons ri-calendar-event-line"></i> <!-- Event Type Icon -->
+                <div>Event Type</div>
+            </a>
+        </li>
+
+        <!-- Halls -->
+        <li class='menu-item@(currentPage == "/Hallss" ? " active" : "")'>
+            <a class="menu-link" asp-area="" asp-controller="Hallss" asp-action="Index">
+                <i class="menu-icon tf-icons ri-building-line"></i> <!-- Hall Icon -->
+                <div>Halls</div>
+            </a>
+        </li>
+
+        <!-- Events -->
+        <li class='menu-item@(currentPage == "/Events" ? " active" : "")'>
+            <a class="menu-link" asp-area="" asp-controller="Events" asp-action="add">
+                <i class="menu-icon tf-icons ri-building-line"></i> <!-- Hall Icon -->
+                <div>Book Events</div>
+            </a>
+        </li>
+
+    </ul>
 </aside>
 <!-- / Menu -->
+
+<style>
+    /* Purple hover effect for entire menu link (both text and icon) */
+    .menu-link:hover {
+        background-color: #D3B3FF; /* Light purple background on hover */
+        color: #6C63FF !important; /* Purple text color */
+    }
+
+        /* Purple icon and text color on hover */
+        .menu-link:hover .menu-icon,
+        .menu-link:hover div {
+            color: #6C63FF !important; /* Purple color for icon and text */
+        }
+
+    /* Set icon color for active link */
+    .menu-item.active .menu-link .menu-icon,
+    .menu-item.active .menu-link div {
+        color: #6C63FF; /* Purple color for active icon and text */
+    }
+</style>
+

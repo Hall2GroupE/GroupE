@@ -1,6 +1,6 @@
-﻿@model List<events.Models.Eventtype>
+@model List<events.Models.Eventtype>
 
-<h1 class="text-center">Event_type</h1>
+<h2 class="text-heading fw-medium">Event Types</h2>
 
 <div class="mb-3">
     <a asp-action="Add" class="btn btn-primary">New Event</a>
@@ -9,9 +9,9 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Event ID</th>
+
+          
             <th>Event Name</th>
-            <th>Price</th>
             <th>Description</th>
             <th>Action</th>
         </tr>
@@ -20,18 +20,36 @@
         @foreach (var std in Model)
         {
             <tr>
-                <td>@std.EventTypeID</td>
+              
                 <td>@std.EventTypeName</td>
-                <td>@std.Price.ToString("C")</td> <!-- Display price in currency format -->
                 <td>@std.Description</td>
                 <td>
                     <a asp-action="Update" asp-route-id="@std.EventTypeID" class="btn btn-sm btn-primary me-2">Edit</a>
-                    <form asp-action="Delete" asp-route-id="@std.EventTypeID" method="post" style="display:inline;"
-                          onsubmit="return confirm('Are you sure you want to delete this event_type?');">
-                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(@std.EventTypeID)">Delete</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Confirmation script for delete action -->
+<script>
+    function confirmDelete(EventTypeID) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to delete this hall?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the delete action with hallID
+                window.location.href = `/Event/Delete/${EventTypeID}`;
+            }
+        });
+    }
+</script>
+
